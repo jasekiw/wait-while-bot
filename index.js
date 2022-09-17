@@ -64,9 +64,12 @@ async function fillOutForm(page, conf) {
   await page.waitForSelector("#name02");
   await page.type("#name02", conf.firstName);
   await page.waitForSelector("#name03");
+  await page.waitForTimeout(50);
   await page.type("#name03", conf.lastName);
   await page.waitForSelector("#phone01");
+  await page.waitForTimeout(50);
   await page.type("#phone01", conf.phoneNumber);
+  await page.waitForTimeout(50);
   await page.waitForSelector("#public-confirm-button");
   if(conf.confirm) {
     await page.click("#public-confirm-button");
