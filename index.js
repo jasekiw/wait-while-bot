@@ -1,8 +1,6 @@
 const puppeteer = require("puppeteer");
 const wait = require('./wait.js').wait;
 const waitForTime = require('./waitForTime.js').waitForTime;
-require('./configSchema.js')
-
 /**
  *
  * @param {puppeteer.Page} page
