@@ -1,13 +1,15 @@
 const puppeteer = require("puppeteer");
 const wait = require('./wait.js').wait;
 const waitForTime = require('./waitForTime.js').waitForTime;
+const joinWaitListSelector = '#join-waitlist-1';
+const waitListUrl = 'https://waitwhile.com/welcome/derbycitychopshop';
 /**
  *
  * @param {puppeteer.Page} page
  */
 async function getIsDisabled(page) {
   return await page.evaluate(() => {
-    return document.querySelector(`#join-waitlist-1`).parentElement.className.indexOf("disabled") !== -1;
+    return document.querySelector(joinWaitListSelector).parentElement.className.indexOf("disabled") !== -1;
   });
 }
 
@@ -17,10 +19,10 @@ async function getIsDisabled(page) {
  * @returns {Promise<void>}
  */
 async function loadPage(page) {
-  await page.goto("https://waitwhile.com/welcome/derbycitychopshop", {
+  await page.goto(waitListUrl, {
     waitUntil: "networkidle2",
   });
-  await page.waitForSelector('#join-waitlist-1');
+  await page.waitForSelector(joinWaitListSelector);
 }
 
 /**
@@ -48,7 +50,7 @@ async function setupBrowser() {
  * @returns {Promise<void>}
  */
 async function fillOutForm(page, conf) {
-  await page.click('#join-waitlist-1');
+  await page.click(joinWaitListSelector);
 
   await page.waitForSelector("#service-1");
   await page.click("#service-1")
