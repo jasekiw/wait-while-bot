@@ -84,7 +84,7 @@ async function waitForSignupToBeAvailable(page) {
     await loadPage(page);
     isDisabled = await getIsDisabled(page);
     if(isDisabled)
-      await wait(5);
+      await wait(3);
   }
 }
 
