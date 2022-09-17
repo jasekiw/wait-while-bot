@@ -82,7 +82,7 @@ async function waitForSignupToBeAvailable(page) {
   let isDisabled = true;
   while(isDisabled) {
     await loadPage(page);
-    isDisabled = getIsDisabled(page);
+    isDisabled = await getIsDisabled(page);
     if(isDisabled)
       await wait(5);
   }
