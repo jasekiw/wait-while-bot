@@ -8,9 +8,9 @@ const waitListUrl = 'https://waitwhile.com/welcome/derbycitychopshop';
  * @param {puppeteer.Page} page
  */
 async function getIsDisabled(page) {
-  return await page.evaluate(() => {
+  return await page.evaluate((joinWaitListSelector) => {
     return document.querySelector(joinWaitListSelector).parentElement.className.indexOf("disabled") !== -1;
-  });
+  }, joinWaitListSelector);
 }
 
 /**
