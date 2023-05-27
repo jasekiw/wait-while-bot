@@ -54,6 +54,11 @@ async function fillOutForm(page, conf) {
 
   await page.waitForSelector("#service-1");
   await page.click("#service-1")
+  if(conf.beardTrim) {
+    await page.waitForSelector("#service-2");
+    await page.click("#service-2")
+  }
+
   await page.click("#allow-multiple-next-btn")
 
   await page.waitForSelector("#public-partysize-next");
@@ -61,7 +66,21 @@ async function fillOutForm(page, conf) {
 
   await page.waitForSelector(".service-list.first-avail");
   await page.waitForTimeout(200); // in some cases the page wasn't ready
-  await page.click(".service-list.first-avail"); // click no first available person button and it will automatically go to the next page
+  let selection = ".service-list.first-avail";
+  if(conf.barberSelection === 'evan') {
+    selection = ".service-list.sel-avail-0"; // this may not work if the list order changes
+  } else if(conf.barberSelection === 'josh') {
+    selection = ".service-list.sel-avail-1"; // this may not work if the list order changes
+  } else if(conf.barberSelection === 'paul') {
+    selection = ".service-list.sel-avail-2"; // this may not work if the list order changes
+  }
+
+  const elem = await page.$(selection);
+  if(elem) {
+    await elem.click();
+  } else {
+    await page.click(".service-list.first-avail"); // click first available person button and it will automatically go to the next page
+  }
 
   await page.waitForSelector("#name02");
   await page.type("#name02", conf.firstName);
@@ -110,7 +129,9 @@ async function waitAndCloseBrowser(browser, page) {
  * @returns {Promise<void>}
  */
 async function main(conf) {
-  await waitForTime(conf.targetTime.tomorrow, conf.targetTime.hour, conf.targetTime.minute);
+  if(conf.targetTime) {
+    await waitForTime(conf.targetTime.tomorrow, conf.targetTime.hour, conf.targetTime.minute);
+  }
   const {browser, page} = await setupBrowser();
   await waitForSignupToBeAvailable(page);
   await fillOutForm(page, conf);
