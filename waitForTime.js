@@ -10,6 +10,9 @@ const wait = require('./wait.js').wait;
 async function waitForTime(tomorrow, hour, minutes) {
   let isItTime = false;
   const target = getTargetDate(tomorrow, hour, minutes);
+  if(!isItTime) {
+    console.log('Waiting for target time: ' + target);
+  }
   while(!isItTime) {
     let currentTime = new Date();
     let elapsed = (target - currentTime) / 1000
